@@ -1,0 +1,197 @@
+{
+	"name": "Sparkpractice1_createDF",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "sparkkdspool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "b23562ba-7360-416e-9932-0bc790035641"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1",
+				"state": {
+					"4e707afe-4c27-4bf4-bfb5-c7c523c02f91": {
+						"type": "Synapse.DataFrame",
+						"sync_state": {
+							"table": {
+								"rows": [
+									{
+										"0": "101",
+										"1": "Kanit",
+										"2": "D1",
+										"3": "A"
+									},
+									{
+										"0": "102",
+										"1": "Devyani",
+										"2": "D2",
+										"3": "B"
+									},
+									{
+										"0": "103",
+										"1": "Anindya",
+										"2": "D3",
+										"3": "C"
+									},
+									{
+										"0": "104",
+										"1": "Anurag",
+										"2": "D4",
+										"3": "D"
+									}
+								],
+								"schema": [
+									{
+										"key": "0",
+										"name": "emp",
+										"type": "int"
+									},
+									{
+										"key": "1",
+										"name": "name",
+										"type": "string"
+									},
+									{
+										"key": "2",
+										"name": "dept",
+										"type": "string"
+									},
+									{
+										"key": "3",
+										"name": "grade",
+										"type": "string"
+									}
+								],
+								"truncated": false
+							},
+							"isSummary": false,
+							"language": "scala",
+							"wranglerEntryContext": {
+								"dataframeType": "pyspark"
+							}
+						},
+						"persist_state": {
+							"view": {
+								"type": "details",
+								"chartOptions": {
+									"chartType": "bar",
+									"aggregationType": "sum",
+									"categoryFieldKeys": [
+										"1"
+									],
+									"seriesFieldKeys": [
+										"0"
+									],
+									"isStacked": false
+								}
+							}
+						}
+					}
+				}
+			},
+			"enableDebugMode": false,
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/c853d123-c274-4d76-8290-e704c4a8dd26/resourceGroups/AzurePracticeRG/providers/Microsoft.Synapse/workspaces/azurekdsynapsespark/bigDataPools/sparkkdspool",
+				"name": "sparkkdspool",
+				"type": "Spark",
+				"endpoint": "https://azurekdsynapsespark.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkkdspool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net",
+					"authHeader": null
+				},
+				"sparkVersion": "3.4",
+				"nodeCount": 10,
+				"cores": 4,
+				"memory": 28,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"from pyspark.sql import *\r\n",
+					"data1 = [(1,\"Kanit\"),(2,\"Dev\")]\r\n",
+					"df=spark.createDataFrame(data=data1)\r\n",
+					"df.show()"
+				],
+				"execution_count": 1
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"data2=[{\"name\":'kanit',\"age\":30},\r\n",
+					"{\"name\":'dev',\"age\":31}]\r\n",
+					"df=spark.createDataFrame(data=data2)\r\n",
+					"df.show()"
+				],
+				"execution_count": 4
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"microsoft": {
+						"language": "python"
+					},
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"from pyspark.sql.types import *\r\n",
+					"schema1=StructType().add(field='emp',data_type=IntegerType())\\\r\n",
+					"                    .add(field='name',data_type=StringType())\\\r\n",
+					"                    .add(field='dept',data_type=StringType())\\\r\n",
+					"                    .add(field='grade',data_type=StringType())\r\n",
+					"df = spark.read.load('abfss://kdlsfile@azurekdls.dfs.core.windows.net/Empdata.csv', schema=schema1, format='csv'\r\n",
+					"## If header exists uncomment line below\r\n",
+					", header=True\r\n",
+					")\r\n",
+					"display(df.limit(10))\r\n",
+					"df.printSchema()"
+				],
+				"execution_count": 17
+			}
+		]
+	}
+}
