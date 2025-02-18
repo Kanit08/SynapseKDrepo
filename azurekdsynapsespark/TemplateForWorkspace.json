@@ -184,7 +184,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ba1f25d0-6748-43b3-82f1-1ea599b325e4"
+						"spark.autotune.trackingId": "ac8a5aa5-689e-4fa1-bf85-a9d4593d16b7"
 					}
 				},
 				"metadata": {
@@ -209,15 +209,13 @@
 						"sparkVersion": "3.4",
 						"nodeCount": 10,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql import *\r\n",
 							"data1 = [(1,\"Kanit\"),(2,\"Dev\")]\r\n",
@@ -282,6 +280,266 @@
 						],
 						"outputs": [],
 						"execution_count": 17
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/show')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "sparkkdspool",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "06a6631e-8cbc-475a-9170-c253b51b115b"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/c853d123-c274-4d76-8290-e704c4a8dd26/resourceGroups/AzurePracticeRG/providers/Microsoft.Synapse/workspaces/azurekdsynapsespark/bigDataPools/sparkkdspool",
+						"name": "sparkkdspool",
+						"type": "Spark",
+						"endpoint": "https://azurekdsynapsespark.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkkdspool",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.4",
+						"nodeCount": 10,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"source": [
+							"from pyspark.sql import *\r\n",
+							"data1 = [(1,\"Kanittttttttttttttttttttttttttttttttttttt\"),\r\n",
+							"        (2,\"Devvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\"),\r\n",
+							"        (3,\"Devvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvttt\"),]\r\n",
+							"df=spark.createDataFrame(data=data1)\r\n",
+							"df.show()"
+						],
+						"outputs": [],
+						"execution_count": 29
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/withcloumn')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "sparkkdspool",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "44f36f3d-2456-4a9c-8698-afd766c99a05"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/c853d123-c274-4d76-8290-e704c4a8dd26/resourceGroups/AzurePracticeRG/providers/Microsoft.Synapse/workspaces/azurekdsynapsespark/bigDataPools/sparkkdspool",
+						"name": "sparkkdspool",
+						"type": "Spark",
+						"endpoint": "https://azurekdsynapsespark.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkkdspool",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.4",
+						"nodeCount": 10,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"from pyspark.sql import *\r\n",
+							"from pyspark.sql.functions import *\r\n",
+							"data1=[(1,\"ron\",\"3000\"),\r\n",
+							"        (2,\"don\",\"4000\"),\r\n",
+							"        (3,\"son\",\"5000\")]\r\n",
+							"schema1=[\"id\",\"name\",\"salary\"]\r\n",
+							"df=spark.createDataFrame(data=data1,schema=schema1)\r\n",
+							"df.show()\r\n",
+							"df.printSchema()"
+						],
+						"outputs": [],
+						"execution_count": 39
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"df1=df.withColumn('salary',col(\"salary\").cast(\"integer\"))\r\n",
+							"df1.printSchema()"
+						],
+						"outputs": [],
+						"execution_count": 41
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"df2= df.withColumn(\"salary\",df.salary*3)\r\n",
+							"df2.show()"
+						],
+						"outputs": [],
+						"execution_count": 43
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"df3= df.withColumn(\"Country\",lit('India'))\r\n",
+							"df3.show()"
+						],
+						"outputs": [],
+						"execution_count": 45
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"df4= df3.withColumn(\"new salary\",df.salary - 1000)\r\n",
+							"df4.show()"
+						],
+						"outputs": [],
+						"execution_count": 47
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"df5= df4.withColumnRenamed(\"new salary\",\"new salary amt\")\r\n",
+							"df5.show()"
+						],
+						"outputs": [],
+						"execution_count": 49
 					}
 				]
 			},
@@ -478,7 +736,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "09a4877e-a65f-44dc-8714-72f35e7804bf"
+						"spark.autotune.trackingId": "8cd8f42d-06a0-4715-90f5-0ecd66a78f8b"
 					}
 				},
 				"metadata": {
@@ -503,8 +761,7 @@
 						"sparkVersion": "3.4",
 						"nodeCount": 10,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -769,7 +1026,7 @@
 			"location": "centralus"
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/show')]",
+			"name": "[concat(parameters('workspaceName'), '/structuretype')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -789,7 +1046,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "316b0252-f7e7-4830-923b-fb4a6e1f0bba"
+						"spark.autotune.trackingId": "23d5fe1f-bf19-4afb-aa66-ed98e47ab18e"
 					}
 				},
 				"metadata": {
@@ -825,14 +1082,22 @@
 						"metadata": {},
 						"source": [
 							"from pyspark.sql import *\r\n",
-							"data1 = [(1,\"Kanittttttttttttttttttttttttttttttttttttt\"),\r\n",
-							"        (2,\"Devvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\"),\r\n",
-							"        (3,\"Devvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvttt\"),]\r\n",
-							"df=spark.createDataFrame(data=data1)\r\n",
-							"df.show()"
+							"from pyspark.sql.types import *\r\n",
+							"data1=[(1,\"ron\",3000),\r\n",
+							"        (2,\"don\",4000),\r\n",
+							"        (3,\"son\",5000)]\r\n",
+							"schema1=StructType(\\\r\n",
+							"                    [StructField(name=\"ID\",dataType=IntegerType()),\\\r\n",
+							"                    StructField(name=\"Name\",dataType=StringType()),\\\r\n",
+							"                    StructField(name=\"Salary\",dataType=IntegerType())\\\r\n",
+							"                    ])\r\n",
+							"\r\n",
+							"df=spark.createDataFrame(data=data1,schema=schema1)\r\n",
+							"df.show()\r\n",
+							"df.printSchema()"
 						],
 						"outputs": [],
-						"execution_count": 29
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",
@@ -858,7 +1123,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/withcloumn')]",
+			"name": "[concat(parameters('workspaceName'), '/Arrays')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -878,7 +1143,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "35522dec-db45-4b30-9f4c-48b3e5f51fab"
+						"spark.autotune.trackingId": "d6b7fd12-af01-4f54-ac5d-a99bbb3512c9"
 					}
 				},
 				"metadata": {
@@ -915,16 +1180,44 @@
 						"source": [
 							"from pyspark.sql import *\r\n",
 							"from pyspark.sql.functions import *\r\n",
-							"data1=[(1,\"ron\",\"3000\"),\r\n",
-							"        (2,\"don\",\"4000\"),\r\n",
-							"        (3,\"son\",\"5000\")]\r\n",
-							"schema1=[\"id\",\"name\",\"salary\"]\r\n",
+							"from pyspark.sql.types import *\r\n",
+							"\r\n",
+							"data1=[(\"ron\",[1,2]),\r\n",
+							"        (\"don\",[3,4]),\r\n",
+							"        (\"son\",[5,6])]\r\n",
+							"#schema1=[\"name\",\"number\"]\r\n",
+							"schema1=StructType(\\\r\n",
+							"                    [StructField(\"name\",StringType()),\\\r\n",
+							"                    StructField(\"number\",ArrayType(IntegerType()))\\\r\n",
+							"                    ])\r\n",
 							"df=spark.createDataFrame(data=data1,schema=schema1)\r\n",
 							"df.show()\r\n",
-							"df.printSchema()"
+							"df.printSchema()\r\n",
+							""
 						],
 						"outputs": [],
-						"execution_count": 39
+						"execution_count": 14
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"df1=df.withColumn(\"new number\",col('number')[0])\r\n",
+							"display(df1)"
+						],
+						"outputs": [],
+						"execution_count": 17
 					},
 					{
 						"cell_type": "code",
@@ -940,91 +1233,10 @@
 							}
 						},
 						"source": [
-							"df1=df.withColumn('salary',col(\"salary\").cast(\"integer\"))\r\n",
-							"df1.printSchema()"
+							""
 						],
 						"outputs": [],
-						"execution_count": 41
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"df2= df.withColumn(\"salary\",df.salary*3)\r\n",
-							"df2.show()"
-						],
-						"outputs": [],
-						"execution_count": 43
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"df3= df.withColumn(\"Country\",lit('India'))\r\n",
-							"df3.show()"
-						],
-						"outputs": [],
-						"execution_count": 45
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"df4= df3.withColumn(\"new salary\",df.salary - 1000)\r\n",
-							"df4.show()"
-						],
-						"outputs": [],
-						"execution_count": 47
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"df5= df4.withColumnRenamed(\"new salary\",\"new salary amt\")\r\n",
-							"df5.show()"
-						],
-						"outputs": [],
-						"execution_count": 49
+						"execution_count": null
 					}
 				]
 			},
