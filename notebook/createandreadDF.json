@@ -1,5 +1,5 @@
 {
-	"name": "Sparkpractice1_createDF",
+	"name": "createandreadDF",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ae665a58-9e83-4411-9b48-0b72f4311cd9"
+				"spark.autotune.trackingId": "ac8a5aa5-689e-4fa1-bf85-a9d4593d16b7"
 			}
 		},
 		"metadata": {
