@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "1dcaff13-1ea9-4cf8-81e3-7ee1eab1572b"
+				"spark.autotune.trackingId": "ca0ae0be-cf8c-4ad4-ba15-f2d4e4f97313"
 			}
 		},
 		"metadata": {
@@ -138,6 +138,25 @@
 					"df4.show()"
 				],
 				"execution_count": 47
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"df5= df4.withColumnRenamed(\"new salary\",\"new salary amt\")\r\n",
+					"df5.show()"
+				],
+				"execution_count": 49
 			}
 		]
 	}
