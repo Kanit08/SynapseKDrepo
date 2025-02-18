@@ -1,5 +1,5 @@
 {
-	"name": "writecreatecsvs",
+	"name": "writecreatecsvandreadjson",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "10a6d037-9ced-4745-bcd5-841e9a60aa48"
+				"spark.autotune.trackingId": "442db7d6-ad8a-40d2-8d50-448c16f4edec"
 			}
 		},
 		"metadata": {
@@ -135,6 +135,27 @@
 					"display(spark.read.csv(path='abfss://kdlsfile@azurekdls.dfs.core.windows.net/writefile',header=True))"
 				],
 				"execution_count": 9
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"from pyspark.sql import *\r\n",
+					"display(spark.read.json(path='abfss://kdlsfile@azurekdls.dfs.core.windows.net/sample1.json',multiLine=True))\r\n",
+					""
+				],
+				"execution_count": 18
 			}
 		]
 	}
