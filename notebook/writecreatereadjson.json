@@ -1,5 +1,5 @@
 {
-	"name": "writecreatereadcsv",
+	"name": "writecreatereadjson",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ab1d1050-5262-450f-9b64-8fa29819047d"
+				"spark.autotune.trackingId": "8cd8f42d-06a0-4715-90f5-0ecd66a78f8b"
 			}
 		},
 		"metadata": {
@@ -55,12 +55,34 @@
 				},
 				"source": [
 					"from pyspark.sql import *\r\n",
+					"display(spark.read.json(path='abfss://kdlsfile@azurekdls.dfs.core.windows.net/sample1.json',multiLine=True))\r\n",
+					""
+				],
+				"execution_count": 1
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"from pyspark.sql import *\r\n",
 					"data1=[(1,\"kanit\"),(2,\"das\")]\r\n",
 					"schema1=[\"id\",\"name\"]\r\n",
 					"df=spark.createDataFrame(data=data1,schema=schema1)\r\n",
-					"display(df)"
+					"display(df)\r\n",
+					""
 				],
-				"execution_count": 1
+				"execution_count": 2
 			},
 			{
 				"cell_type": "code",
@@ -76,7 +98,7 @@
 					}
 				},
 				"source": [
-					"df.write.csv(path='abfss://kdlsfile@azurekdls.dfs.core.windows.net/writefile',header=True,mode='error')"
+					"df.write.json(path='abfss://kdlsfile@azurekdls.dfs.core.windows.net/writejsonfile',mode='error')"
 				],
 				"execution_count": 4
 			},
@@ -95,9 +117,9 @@
 					"collapsed": false
 				},
 				"source": [
-					"display(spark.read.csv(path='abfss://kdlsfile@azurekdls.dfs.core.windows.net/writefile',header=True))"
+					"display(spark.read.json(path='abfss://kdlsfile@azurekdls.dfs.core.windows.net/writejsonfile'))"
 				],
-				"execution_count": 7
+				"execution_count": 5
 			},
 			{
 				"cell_type": "code",
@@ -113,49 +135,9 @@
 					}
 				},
 				"source": [
-					"df.write.csv(path='abfss://kdlsfile@azurekdls.dfs.core.windows.net/writefile',header=True,mode='append')"
-				],
-				"execution_count": 8
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					},
-					"collapsed": false
-				},
-				"source": [
-					"display(spark.read.csv(path='abfss://kdlsfile@azurekdls.dfs.core.windows.net/writefile',header=True))"
-				],
-				"execution_count": 9
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					},
-					"collapsed": false
-				},
-				"source": [
-					"from pyspark.sql import *\r\n",
-					"display(spark.read.json(path='abfss://kdlsfile@azurekdls.dfs.core.windows.net/sample1.json',multiLine=True))\r\n",
 					""
 				],
-				"execution_count": 18
+				"execution_count": null
 			}
 		]
 	}
