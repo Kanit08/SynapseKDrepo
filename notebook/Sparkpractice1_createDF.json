@@ -18,94 +18,16 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "b23562ba-7360-416e-9932-0bc790035641"
+				"spark.autotune.trackingId": "ae665a58-9e83-4411-9b48-0b72f4311cd9"
 			}
 		},
 		"metadata": {
 			"saveOutput": true,
-			"synapse_widget": {
-				"version": "0.1",
-				"state": {
-					"4e707afe-4c27-4bf4-bfb5-c7c523c02f91": {
-						"type": "Synapse.DataFrame",
-						"sync_state": {
-							"table": {
-								"rows": [
-									{
-										"0": "101",
-										"1": "Kanit",
-										"2": "D1",
-										"3": "A"
-									},
-									{
-										"0": "102",
-										"1": "Devyani",
-										"2": "D2",
-										"3": "B"
-									},
-									{
-										"0": "103",
-										"1": "Anindya",
-										"2": "D3",
-										"3": "C"
-									},
-									{
-										"0": "104",
-										"1": "Anurag",
-										"2": "D4",
-										"3": "D"
-									}
-								],
-								"schema": [
-									{
-										"key": "0",
-										"name": "emp",
-										"type": "int"
-									},
-									{
-										"key": "1",
-										"name": "name",
-										"type": "string"
-									},
-									{
-										"key": "2",
-										"name": "dept",
-										"type": "string"
-									},
-									{
-										"key": "3",
-										"name": "grade",
-										"type": "string"
-									}
-								],
-								"truncated": false
-							},
-							"isSummary": false,
-							"language": "scala",
-							"wranglerEntryContext": {
-								"dataframeType": "pyspark"
-							}
-						},
-						"persist_state": {
-							"view": {
-								"type": "details",
-								"chartOptions": {
-									"chartType": "bar",
-									"aggregationType": "sum",
-									"categoryFieldKeys": [
-										"1"
-									],
-									"seriesFieldKeys": [
-										"0"
-									],
-									"isStacked": false
-								}
-							}
-						}
-					}
-				}
-			},
 			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
 			"language_info": {
 				"name": "python"
 			},
@@ -116,14 +38,13 @@
 				"endpoint": "https://azurekdsynapsespark.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkkdspool",
 				"auth": {
 					"type": "AAD",
-					"authResource": "https://dev.azuresynapse.net",
-					"authHeader": null
+					"authResource": "https://dev.azuresynapse.net"
 				},
 				"sparkVersion": "3.4",
 				"nodeCount": 10,
 				"cores": 4,
 				"memory": 28,
-				"extraHeader": null
+				"automaticScaleJobs": false
 			},
 			"sessionKeepAliveTimeout": 30
 		},
