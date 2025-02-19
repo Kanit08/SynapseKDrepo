@@ -1040,6 +1040,128 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/joinfunction')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "sparkkdspool",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "4d3368bd-c4aa-4ebd-818d-b45ea4d879d0"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/c853d123-c274-4d76-8290-e704c4a8dd26/resourceGroups/AzurePracticeRG/providers/Microsoft.Synapse/workspaces/azurekdsynapsespark/bigDataPools/sparkkdspool",
+						"name": "sparkkdspool",
+						"type": "Spark",
+						"endpoint": "https://azurekdsynapsespark.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkkdspool",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.4",
+						"nodeCount": 10,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"from pyspark.sql import *\n",
+							"from pyspark.sql.types import *\n",
+							"from pyspark.sql.functions import *\n",
+							"\n",
+							"data1=[(1,'kanit',2000,1),(2,'devi',3000,2),(3,'ani',1000,4)]\n",
+							"data2=[(1,'IT'),(2,'HR'),(3,'payroll')]\n",
+							"schema1=['id','name','salary','dept']\n",
+							"schema2=['id','depname']\n",
+							"df1=spark.createDataFrame(data1,schema1)\n",
+							"df2=spark.createDataFrame(data2,schema2)\n",
+							"df1.show()\n",
+							"df2.show()"
+						],
+						"outputs": [],
+						"execution_count": 1
+					},
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"df1.join(df2,df1.dept==df2.id,'inner').show()\n",
+							"df1.join(df2,df1.dept==df2.id,'left').show()\n",
+							"df1.join(df2,df1.dept==df2.id,'right').show()\n",
+							"df1.join(df2,df1.dept==df2.id,'leftsemi').show()\n",
+							"df1.join(df2,df1.dept==df2.id,'leftanti').show()\n",
+							"\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 6
+					},
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"data1=[(1,'kanit',2000,0),(2,'devi',3000,1),(3,'ani',1000,2)]\n",
+							"schema1=['id','name','salary','mgrID']\n",
+							"df1=spark.createDataFrame(data1,schema1)\n",
+							"df1.show()"
+						],
+						"outputs": [],
+						"execution_count": 8
+					},
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"df1.alias('emp').join(df1.alias('mgr'),col('emp.mgrID')==col('mgr.id'),'left')\\\n",
+							".select(col('emp.name').alias('emp name'),col('mgr.name').alias('respective manager')).show()"
+						],
+						"outputs": [],
+						"execution_count": 18
+					},
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/rowandcolfunction')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
@@ -1378,7 +1500,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f4966bd7-b28a-458d-bcc8-464f8b49c67f"
+						"spark.autotune.trackingId": "d67fa6dd-4cb0-464a-8256-aa678182ca2f"
 					}
 				},
 				"metadata": {
@@ -1403,15 +1525,13 @@
 						"sparkVersion": "3.4",
 						"nodeCount": 10,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql import *\r\n",
 							"from pyspark.sql.functions import *\r\n",
