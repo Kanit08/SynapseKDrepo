@@ -1,5 +1,5 @@
 {
-	"name": "rowfunction",
+	"name": "rowandcolfunction",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "94acc31c-75d9-4a50-bd17-01e9e41660ff"
+				"spark.autotune.trackingId": "a56a27ba-c708-48b1-825e-e0c6f2e2657c"
 			}
 		},
 		"metadata": {
@@ -113,12 +113,17 @@
 						"transient": {
 							"deleting": false
 						}
-					}
+					},
+					"collapsed": false
 				},
 				"source": [
-					""
+					"data1=[(1,\"kanit\",1000),(2,\"das\",2000)]\r\n",
+					"schema1=[\"id\",\"name\",'salary']\r\n",
+					"df=spark.createDataFrame(data=data1,schema=schema1)\r\n",
+					"df.show()\r\n",
+					"df.withColumn('new sal',lit(5000)).show()"
 				],
-				"execution_count": null
+				"execution_count": 38
 			}
 		]
 	}
