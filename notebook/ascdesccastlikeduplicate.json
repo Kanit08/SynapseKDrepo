@@ -1,5 +1,5 @@
 {
-	"name": "ascdesccastlike",
+	"name": "ascdesccastlikeduplicate",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "dcb9b4f3-e6b3-4e07-bce4-712f86d79ac3"
+				"spark.autotune.trackingId": "f0565013-e84a-4922-a4e6-33f17686b633"
 			}
 		},
 		"metadata": {
@@ -60,7 +60,7 @@
 					"df.show()\r\n",
 					"df.sort(df.name.asc()).show()"
 				],
-				"execution_count": 7
+				"execution_count": 17
 			},
 			{
 				"cell_type": "code",
@@ -76,9 +76,11 @@
 					}
 				},
 				"source": [
-					"df.filter(df.name.like('k%')).show()"
+					"df.filter(df.name.like('k%')).show()\r\n",
+					"df.filter(df.name=='Dev').show()\r\n",
+					"df.filter((df.name=='Dev')&(df.gender=='F')).show()"
 				],
-				"execution_count": 8
+				"execution_count": 18
 			},
 			{
 				"cell_type": "code",
@@ -117,6 +119,33 @@
 					""
 				],
 				"execution_count": 14
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"from pyspark.sql import *\r\n",
+					"from pyspark.sql.functions import *\r\n",
+					"from pyspark.sql.types import *\r\n",
+					"data1=[(1,\"kanit\",'M',1000),(2,\"Dev\",'F',2000),(3,\"Ani\",'M',3000),(3,\"Ani\",'M',3000),\\\r\n",
+					"        (4,\"Ankit\",'M',4000)]\r\n",
+					"schema1=[\"id\",\"name\",'gender','salary']\r\n",
+					"df=spark.createDataFrame(data=data1,schema=schema1)\r\n",
+					"df.show()\r\n",
+					"df.drop_duplicates().show()\r\n",
+					"df.drop_duplicates(['gender']).show()"
+				],
+				"execution_count": 23
 			},
 			{
 				"cell_type": "code",
