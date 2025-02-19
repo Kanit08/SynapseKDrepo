@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "35d9f52f-1281-43c3-a7b8-d65a97287d98"
+				"spark.autotune.trackingId": "949324ea-bce6-4077-b8ee-47240da095fc"
 			}
 		},
 		"metadata": {
@@ -103,6 +103,54 @@
 					"df3.show(truncate=False)"
 				],
 				"execution_count": 15
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"from pyspark.sql import *\r\n",
+					"from pyspark.sql.functions import *\r\n",
+					"from pyspark.sql.types import *\r\n",
+					"data1=[(\"ron\",{\"id\":\"KDcog\",\"place\":\"Pune\"}),\r\n",
+					"        (\"don\",{\"id\":\"devgen\",\"place\":\"Mumbai\"}),\r\n",
+					"        (\"son\",{\"id\":\"anieric\",\"place\":\"Blore\"})]\r\n",
+					"schema1=[\"name\",\"properties\"]\r\n",
+					"#schema2=StructType([\r\n",
+					"#                    StructField('name',StringType()),\\\r\n",
+					"#                    StructField('properties',StringType())])\r\n",
+					"df1=spark.createDataFrame(data=data1,schema=schema1)\r\n",
+					"df1.show(truncate=False)"
+				],
+				"execution_count": 21
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"df2= df1.select('name','properties',explode(df1.properties)).show(truncate=False)\r\n",
+					"df3=df1.withColumn('keys',df1.properties).show(truncate=False)"
+				],
+				"execution_count": 24
 			}
 		]
 	}
