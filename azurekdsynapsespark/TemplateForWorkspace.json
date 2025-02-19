@@ -1605,7 +1605,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "67cc8f17-6965-48a3-99d3-fb99fd602d60"
+						"spark.autotune.trackingId": "b4b8c975-292b-4ddf-b217-0ed11f2d9763"
 					}
 				},
 				"metadata": {
@@ -1743,7 +1743,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8e4e06f3-2517-4417-9e6b-eedfde89c7e9"
+						"spark.autotune.trackingId": "8671e8f2-5f4b-490c-b207-be2135d0884a"
 					}
 				},
 				"metadata": {
@@ -1838,7 +1838,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/ascdesccastlike')]",
+			"name": "[concat(parameters('workspaceName'), '/ascdesccastlikeduplicate')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -1858,7 +1858,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "9f588935-d1f2-49a7-9490-89ce470f2d44"
+						"spark.autotune.trackingId": "8b9f50dc-08e0-4ccf-a8d3-d7fb858570bc"
 					}
 				},
 				"metadata": {
@@ -1903,7 +1903,7 @@
 							"df.sort(df.name.asc()).show()"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 17
 					},
 					{
 						"cell_type": "code",
@@ -1919,10 +1919,12 @@
 							}
 						},
 						"source": [
-							"df.filter(df.name.like('k%')).show()"
+							"df.filter(df.name.like('k%')).show()\r\n",
+							"df.filter(df.name=='Dev').show()\r\n",
+							"df.filter((df.name=='Dev')&(df.gender=='F')).show()"
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 18
 					},
 					{
 						"cell_type": "code",
@@ -1963,6 +1965,132 @@
 						],
 						"outputs": [],
 						"execution_count": 14
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"from pyspark.sql import *\r\n",
+							"from pyspark.sql.functions import *\r\n",
+							"from pyspark.sql.types import *\r\n",
+							"data1=[(1,\"kanit\",'M',1000),(2,\"Dev\",'F',2000),(3,\"Ani\",'M',3000),(3,\"Ani\",'M',3000),\\\r\n",
+							"        (4,\"Ankit\",'M',4000)]\r\n",
+							"schema1=[\"id\",\"name\",'gender','salary']\r\n",
+							"df=spark.createDataFrame(data=data1,schema=schema1)\r\n",
+							"df.show()\r\n",
+							"df.drop_duplicates().show()\r\n",
+							"df.drop_duplicates(['gender']).show()"
+						],
+						"outputs": [],
+						"execution_count": 23
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/unionanddistinct')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "sparkkdspool",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "80e24621-5770-42bb-8f5a-eddd9624db8f"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/c853d123-c274-4d76-8290-e704c4a8dd26/resourceGroups/AzurePracticeRG/providers/Microsoft.Synapse/workspaces/azurekdsynapsespark/bigDataPools/sparkkdspool",
+						"name": "sparkkdspool",
+						"type": "Spark",
+						"endpoint": "https://azurekdsynapsespark.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkkdspool",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.4",
+						"nodeCount": 10,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"from pyspark.sql import *\r\n",
+							"from pyspark.sql.functions import *\r\n",
+							"from pyspark.sql.types import *\r\n",
+							"data1=[(1,\"kanit\",'M',1000),(2,\"Dev\",'F',2000),(3,\"Ani\",'M',3000),(4,\"Ankit\",'M',4000)]\r\n",
+							"schema1=[\"id\",\"name\",'gender','salary']\r\n",
+							"data2=[(1,\"Hari\",'M',1000),(2,\"meera\",'F',2000),(3,\"Anil\",'M',3000),(4,\"tarun\",'M',4000),\\\r\n",
+							"        (4,\"Ankit\",'M',4000)]\r\n",
+							"schema2=[\"id\",\"name\",'gender','salary']\r\n",
+							"df1=spark.createDataFrame(data=data1,schema=schema1)\r\n",
+							"df1.show()\r\n",
+							"df2=spark.createDataFrame(data=data2,schema=schema2)\r\n",
+							"df2.show()\r\n",
+							"uniondf=df1.union(df2)\r\n",
+							"uniondf.show()\r\n",
+							"uniondf.distinct().show()"
+						],
+						"outputs": [],
+						"execution_count": 29
 					},
 					{
 						"cell_type": "code",
