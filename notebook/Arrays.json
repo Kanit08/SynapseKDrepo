@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "4b32c92b-9047-4d2d-8109-d823060257fb"
+				"spark.autotune.trackingId": "0c75fb24-a730-4f8b-ae96-17917e4b84c9"
 			}
 		},
 		"metadata": {
@@ -89,6 +89,178 @@
 					"display(df1)"
 				],
 				"execution_count": 17
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"from pyspark.sql import *\r\n",
+					"from pyspark.sql.functions import *\r\n",
+					"from pyspark.sql.types import *\r\n",
+					"\r\n",
+					"data1=[(1,\"ron\",[\"aws\",\"python\"]),\r\n",
+					"        (2,\"don\",[\"azure\",\"java\"]),\r\n",
+					"        (3,\"son\",[\"gcp\",\".net\"])]\r\n",
+					"schema1=[\"id\",\"name\",\"skills\"]\r\n",
+					"df=spark.createDataFrame(data=data1,schema=schema1)\r\n",
+					"df.show()"
+				],
+				"execution_count": 3
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"df1=df.withColumn(\"explodecol\",explode(col('skills')))\r\n",
+					"df1.show()"
+				],
+				"execution_count": 7
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"data2=[(1,\"ron\",\"aws,python\"),\r\n",
+					"        (2,\"don\",\"azure,java\"),\r\n",
+					"        (3,\"son\",\"gcp,.net\")]\r\n",
+					"schema2=[\"id\",\"name\",\"skills\"]\r\n",
+					"df4=spark.createDataFrame(data=data2,schema=schema2)\r\n",
+					"df4.show()"
+				],
+				"execution_count": 20
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"df2=df4.withColumn(\"split\",split('skills',','))\r\n",
+					"df2.show()"
+				],
+				"execution_count": 21
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"data3=[(1,\"ron\",\"aws\",\"python\"),\r\n",
+					"        (2,\"don\",\"azure\",\"java\"),\r\n",
+					"        (3,\"son\",\"gcp\",\".net\")]\r\n",
+					"schema3=[\"id\",\"name\",\"skill1\",\"skill2\"]\r\n",
+					"df5=spark.createDataFrame(data=data3,schema=schema3)\r\n",
+					"df5.show()"
+				],
+				"execution_count": 25
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"df6=df5.withColumn(\"Skill\",array(col('skill1'),col('skill2')))\r\n",
+					"df6.show()"
+				],
+				"execution_count": 26
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"data7=[(1,\"ron\",[\"aws\",\"python\"]),\r\n",
+					"        (2,\"don\",[\"azure\",\"java\"]),\r\n",
+					"        (3,\"son\",[\"gcp\",\".net\"])]\r\n",
+					"schema7=[\"id\",\"name\",\"skills\"]\r\n",
+					"df7=spark.createDataFrame(data=data7,schema=schema7)\r\n",
+					"df7.show()"
+				],
+				"execution_count": 28
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"df8=df7.withColumn(\"Skilljava\",array_contains(col('skills'),'java'))\r\n",
+					"df8.show()"
+				],
+				"execution_count": 30
 			},
 			{
 				"cell_type": "code",
