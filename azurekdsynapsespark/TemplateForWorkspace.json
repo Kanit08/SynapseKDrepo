@@ -183,7 +183,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0e14c0a5-6bef-44f7-bb71-9377b7915041"
+						"spark.autotune.trackingId": "96d3081a-f7d6-4d05-a7a3-8fea17edb17a"
 					}
 				},
 				"metadata": {
@@ -1439,7 +1439,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "9b94da51-b114-4304-8083-882b6849cfb0"
+						"spark.autotune.trackingId": "24bcdfa4-5ec5-4bd3-9fe7-f91963ad9fbb"
 					}
 				},
 				"metadata": {
@@ -1474,15 +1474,21 @@
 						"cell_type": "code",
 						"metadata": {},
 						"source": [
+							"from pyspark.sql import *\r\n",
+							"from pyspark.sql.functions import *\r\n",
+							"from pyspark.sql.types import *\r\n",
 							"data1=[(\"ron\",{\"id\":\"KDcog\",\"place\":\"Pune\"}),\r\n",
-							"        (2,\"don\",{\"id\",\"devgen\",\"place\":\"Mumbai\"}),\r\n",
-							"        (3,\"son\",{\"id\",\"anieric\",\"place\":\"Blore\"})]\r\n",
-							"schema1=[\"id\",\"name\",\"properties\"]\r\n",
+							"        (\"don\",{\"id\":\"devgen\",\"place\":\"Mumbai\"}),\r\n",
+							"        (\"son\",{\"id\":\"anieric\",\"place\":\"Blore\"})]\r\n",
+							"#schema1=[\"name\",\"properties\"]\r\n",
+							"schema2=StructType([\r\n",
+							"                    StructField('name',StringType()),\\\r\n",
+							"                    StructField('properties',StringType())])\r\n",
 							"df1=spark.createDataFrame(data=data1,schema=schema1)\r\n",
-							"df1.show()"
+							"df1.show(truncate=False)"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -1498,12 +1504,99 @@
 							}
 						},
 						"source": [
-							""
+							"df2=df1.withColumn(\"resides\",df1.properties['place'])\r\n",
+							"df2.show()"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 13
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"df3=df2.withColumn(\"identity\",df1.properties['id'])\r\n",
+							"df3.show(truncate=False)"
+						],
+						"outputs": [],
+						"execution_count": 15
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"from pyspark.sql import *\r\n",
+							"from pyspark.sql.functions import *\r\n",
+							"from pyspark.sql.types import *\r\n",
+							"data1=[(\"ron\",{\"id\":\"KDcog\",\"place\":\"Pune\"}),\r\n",
+							"        (\"don\",{\"id\":\"devgen\",\"place\":\"Mumbai\"}),\r\n",
+							"        (\"son\",{\"id\":\"anieric\",\"place\":\"Blore\"})]\r\n",
+							"schema1=[\"name\",\"properties\"]\r\n",
+							"#schema2=StructType([\r\n",
+							"#                    StructField('name',StringType()),\\\r\n",
+							"#                    StructField('properties',StringType())])\r\n",
+							"df1=spark.createDataFrame(data=data1,schema=schema1)\r\n",
+							"df1.show(truncate=False)"
+						],
+						"outputs": [],
+						"execution_count": 21
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"df2= df1.select('name','properties',explode(df1.properties)).show(truncate=False)\r\n",
+							"df3=df1.withColumn('keys',df1.properties).show(truncate=False)"
+						],
+						"outputs": [],
+						"execution_count": 24
 					}
 				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/rowfunction')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"metadata": {
+					"language_info": {
+						"name": "python"
+					}
+				},
+				"cells": []
 			},
 			"dependsOn": []
 		}
