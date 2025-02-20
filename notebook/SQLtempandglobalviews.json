@@ -1,5 +1,5 @@
 {
-	"name": "functiontransform",
+	"name": "SQLtempandglobalviews",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "63ac87d0-7f6c-40a7-8966-6e5ff00ced84"
+				"spark.autotune.trackingId": "cf341e94-f5cd-4db6-bb9f-b06e57f2c82f"
 			}
 		},
 		"metadata": {
@@ -54,30 +54,29 @@
 					"from pyspark.sql import *\n",
 					"from pyspark.sql.functions import *\n",
 					"from pyspark.sql.types import *\n",
-					"\n",
-					"data1=[(1,\"ron\",[\"aws\",\"python\"]),\n",
-					"        (2,\"don\",[\"azure\",\"java\"]),\n",
-					"        (3,\"son\",[\"gcp\",\".net\"])]\n",
-					"schema1=[\"id\",\"name\",\"skills\"]\n",
-					"df=spark.createDataFrame(data=data1,schema=schema1)\n",
+					"data1=[(1,\"kanit\",'M',1000,'HR'),(2,\"Dev\",None,2000,'IT'),(3,\"Ani\",'M',3000,'Account'),\\\n",
+					"        (4,\"Ankit\",'M',4000,'Account'),(5,\"Hari\",'M',1000,'Account'),(6,\"meera\",'F',2000,'HR'),\\\n",
+					"        (7,\"Anil\",'M',3000,'IT'),(8,\"tarun\",'M',None,'IT'),(9,\"Ketan\",'M',4000,None)]\n",
+					"schema1=[\"id\",\"name\",'gender','salary','department']\n",
+					"df=spark.createDataFrame(data1,schema1)\n",
 					"df.show()\n",
-					"#df1=df.select('id','name',transform('skills',lambda x: upper(x)).alias('skill'))\n",
-					"#df1.show()\n",
-					"\n",
-					"def convertoupper(x):\n",
-					"    return upper(x)\n",
-					"\n",
-					"df2=df.select('id','name',transform('skills',convertoupper).alias('skill')).show()\n",
+					"df.createOrReplaceTempView('employees')\n",
+					"df1 = spark.sql(\"SELECT name FROM employees\")\n",
+					"df1.show()\n",
 					""
 				],
-				"execution_count": 12
+				"execution_count": 34
 			},
 			{
 				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
 				"source": [
-					"help(df.transform)"
+					"%%sql\n",
+					"SELECT name FROM employees"
 				],
-				"execution_count": null
+				"execution_count": 44
 			},
 			{
 				"cell_type": "code",
