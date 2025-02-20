@@ -1,0 +1,90 @@
+{
+	"name": "pivotunpivot",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "sparkkdspool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "f887cd88-d355-4e56-9613-30a7bd9efc76"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/c853d123-c274-4d76-8290-e704c4a8dd26/resourceGroups/AzurePracticeRG/providers/Microsoft.Synapse/workspaces/azurekdsynapsespark/bigDataPools/sparkkdspool",
+				"name": "sparkkdspool",
+				"type": "Spark",
+				"endpoint": "https://azurekdsynapsespark.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkkdspool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.4",
+				"nodeCount": 10,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"from pyspark.sql import *\n",
+					"from pyspark.sql.functions import *\n",
+					"from pyspark.sql.types import *\n",
+					"data1=[(1,\"kanit\",'M',1000,'HR'),(2,\"Dev\",'F',2000,'IT'),(3,\"Ani\",'M',3000,'Account'),\\\n",
+					"        (4,\"Ankit\",'M',4000,'Account'),(5,\"Hari\",'M',1000,'Account'),(6,\"meera\",'F',2000,'HR'),\\\n",
+					"        (7,\"Anil\",'M',3000,'IT'),(8,\"tarun\",'M',4000,'IT'),(9,\"Ketan\",'M',4000,'IT')]\n",
+					"schema1=[\"id\",\"name\",'gender','salary','department']\n",
+					"df=spark.createDataFrame(data1,schema1)\n",
+					"df.show()\n",
+					"df.groupBy(df.department).count().show()\n",
+					"df.groupBy(df.department).pivot('gender').count().show()\n",
+					"df.groupBy(df.department).pivot('gender',['M']).count().show()"
+				],
+				"execution_count": 3
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"data1=[('HR',8,5),('IT',6,3),('Account',1,2)]\n",
+					"schema1=['department','male','female']\n",
+					"df=spark.createDataFrame(data1,schema1)\n",
+					"df.show()\n",
+					"dfunpivot=df.select('department',expr(\"stack(2,'M',male,'F',female)as(gender,count)\"))\n",
+					"dfunpivot.show()"
+				],
+				"execution_count": 8
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					""
+				],
+				"execution_count": null
+			}
+		]
+	}
+}
