@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "138928ba-b522-4c65-95eb-d9db5294b454"
+				"spark.autotune.trackingId": "ecd3b6ba-f958-4151-8134-14b7f0ded34c"
 			}
 		},
 		"metadata": {
@@ -68,7 +68,14 @@
 					"df2=df.select('id','name',transform('skills',convertoupper).alias('skill')).show()\n",
 					""
 				],
-				"execution_count": 20
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"help(df.transform)"
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
