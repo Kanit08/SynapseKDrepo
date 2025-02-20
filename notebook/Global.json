@@ -1,5 +1,5 @@
 {
-	"name": "SQLtempandglobalviews",
+	"name": "Global",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "8f439229-3ebe-4185-9e2c-359b0ce1677c"
+				"spark.autotune.trackingId": "e6275fba-f328-41ae-8f3d-efbf0dc6a0de"
 			}
 		},
 		"metadata": {
@@ -51,42 +51,10 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"from pyspark.sql import *\n",
-					"from pyspark.sql.functions import *\n",
-					"from pyspark.sql.types import *\n",
-					"data1=[(1,\"kanit\",'M',1000,'HR'),(2,\"Dev\",None,2000,'IT'),(3,\"Ani\",'M',3000,'Account'),\\\n",
-					"        (4,\"Ankit\",'M',4000,'Account'),(5,\"Hari\",'M',1000,'Account'),(6,\"meera\",'F',2000,'HR'),\\\n",
-					"        (7,\"Anil\",'M',3000,'IT'),(8,\"tarun\",'M',None,'IT'),(9,\"Ketan\",'M',4000,None)]\n",
-					"schema1=[\"id\",\"name\",'gender','salary','department']\n",
-					"df=spark.createDataFrame(data1,schema1)\n",
-					"df.show()\n",
-					"#df.createOrReplaceTempView('employees')\n",
-					"df.createOrReplaceGlobalTempView('employees')\n",
-					"\n",
-					"df1 = spark.sql(\"SELECT name FROM global_temp.employees\")\n",
-					"df1.show()\n",
-					""
-				],
-				"execution_count": 7
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"collapsed": false
-				},
-				"source": [
 					"%%sql\n",
 					"SELECT name FROM global_temp.employees"
 				],
-				"execution_count": 8
-			},
-			{
-				"cell_type": "code",
-				"source": [
-					"session_id = spark.sparkContext.applicationId\n",
-					"print(f\"Session ID: {session_id}\")"
-				],
-				"execution_count": 2
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
