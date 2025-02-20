@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "51d25304-0d50-49e7-8bec-a62ce82dbed3"
+				"spark.autotune.trackingId": "74db9807-1bee-4910-97f6-6516e63d62a1"
 			}
 		},
 		"metadata": {
@@ -62,6 +62,25 @@
 					"df.show()"
 				],
 				"execution_count": 18
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"data1=[(\"kanit\",'Das'),(\"Dev\",'Patil'),(\"Ani\",'Katti')]\n",
+					"rdd=spark.sparkContext.parallelize(data1)\n",
+					"rdd1=rdd.map(lambda x: x + (x[0]+' '+ x[1],))\n",
+					"print(rdd1.collect())"
+				],
+				"execution_count": 7
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"df=spark.createDataFrame(data1,['fn','ln'])\n",
+					"df1=spark.createDataFrame(rdd1,['fn','ln','fullname'])\n",
+					"df1.show()"
+				],
+				"execution_count": 13
 			},
 			{
 				"cell_type": "code",
