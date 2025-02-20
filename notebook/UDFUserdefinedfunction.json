@@ -1,0 +1,108 @@
+{
+	"name": "UDFUserdefinedfunction",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "sparkkdspool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "859d5277-c7f8-4dd6-a25a-e03c210599f3"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/c853d123-c274-4d76-8290-e704c4a8dd26/resourceGroups/AzurePracticeRG/providers/Microsoft.Synapse/workspaces/azurekdsynapsespark/bigDataPools/sparkkdspool",
+				"name": "sparkkdspool",
+				"type": "Spark",
+				"endpoint": "https://azurekdsynapsespark.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkkdspool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.4",
+				"nodeCount": 10,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"from pyspark.sql import *\n",
+					"from pyspark.sql.functions import *\n",
+					"from pyspark.sql.types import *\n",
+					"data1=[(1,\"kanit\",'M',1000,200),(2,\"Dev\",'M',2000,400),(3,\"Ani\",'M',3000,400),\\\n",
+					"        (4,\"Ankit\",'M',4000,6000),(5,\"Hari\",'M',1000,900),(6,\"meera\",'F',2000,500)]\n",
+					"schema1=[\"id\",\"name\",'gender','salary','bonus']\n",
+					"df=spark.createDataFrame(data1,schema1)\n",
+					"df.show()\n",
+					"def totalsal(s,b):\n",
+					"    return s+b\n",
+					"#totalpay=udf(lambda x,y: totalsal(x,y),IntegerType())\n",
+					"df.select('*',totalsal(col('salary'),col('bonus')).alias('totalsalary')).show()\n",
+					""
+				],
+				"execution_count": 11
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"from pyspark.sql import *\n",
+					"from pyspark.sql.functions import *\n",
+					"from pyspark.sql.types import *\n",
+					"data1=[(1,\"kanit\",'M',1000,200),(2,\"Dev\",'M',2000,400),(3,\"Ani\",'M',3000,400),\\\n",
+					"        (4,\"Ankit\",'M',4000,6000),(5,\"Hari\",'M',1000,900),(6,\"meera\",'F',2000,500)]\n",
+					"schema1=[\"id\",\"name\",'gender','salary','bonus']\n",
+					"df=spark.createDataFrame(data1,schema1)\n",
+					"df1=df.createOrReplaceTempView('emps')\n",
+					"df.show()\n",
+					"def totalsal(s,b):\n",
+					"    return s+b\n",
+					"spark.udf.register('Totalpayment',f=totalsal,returnType=IntegerType())"
+				],
+				"execution_count": 12
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
+				"source": [
+					"%%sql\n",
+					"select *, Totalpayment(salary,bonus) as totpay from emps"
+				],
+				"execution_count": 15
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					""
+				],
+				"execution_count": null
+			}
+		]
+	}
+}
