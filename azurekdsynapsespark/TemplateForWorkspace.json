@@ -1060,7 +1060,123 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4d3368bd-c4aa-4ebd-818d-b45ea4d879d0"
+						"spark.autotune.trackingId": "258abcea-5973-4ed0-bd0c-f0f9bb16e32f"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/c853d123-c274-4d76-8290-e704c4a8dd26/resourceGroups/AzurePracticeRG/providers/Microsoft.Synapse/workspaces/azurekdsynapsespark/bigDataPools/sparkkdspool",
+						"name": "sparkkdspool",
+						"type": "Spark",
+						"endpoint": "https://azurekdsynapsespark.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkkdspool",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.4",
+						"nodeCount": 10,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"source": [
+							"from pyspark.sql import *\n",
+							"from pyspark.sql.types import *\n",
+							"from pyspark.sql.functions import *\n",
+							"\n",
+							"data1=[(1,'kanit',2000,1),(2,'devi',3000,2),(3,'ani',1000,4)]\n",
+							"data2=[(1,'IT'),(2,'HR'),(3,'payroll')]\n",
+							"schema1=['id','name','salary','dept']\n",
+							"schema2=['id','depname']\n",
+							"df1=spark.createDataFrame(data1,schema1)\n",
+							"df2=spark.createDataFrame(data2,schema2)\n",
+							"df1.show()\n",
+							"df2.show()"
+						],
+						"outputs": [],
+						"execution_count": 1
+					},
+					{
+						"cell_type": "code",
+						"source": [
+							"df1.join(df2,df1.dept==df2.id,'inner').show()\n",
+							"df1.join(df2,df1.dept==df2.id,'left').show()\n",
+							"df1.join(df2,df1.dept==df2.id,'right').show()\n",
+							"df1.join(df2,df1.dept==df2.id,'leftsemi').show()\n",
+							"df1.join(df2,df1.dept==df2.id,'leftanti').show()\n",
+							"\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 6
+					},
+					{
+						"cell_type": "code",
+						"source": [
+							"data1=[(1,'kanit',2000,0),(2,'devi',3000,1),(3,'ani',1000,2)]\n",
+							"schema1=['id','name','salary','mgrID']\n",
+							"df1=spark.createDataFrame(data1,schema1)\n",
+							"df1.show()"
+						],
+						"outputs": [],
+						"execution_count": 8
+					},
+					{
+						"cell_type": "code",
+						"source": [
+							"df1.alias('emp').join(df1.alias('mgr'),col('emp.mgrID')==col('mgr.id'),'left')\\\n",
+							".select(col('emp.name').alias('emp name'),col('mgr.name').alias('respective manager')).show()"
+						],
+						"outputs": [],
+						"execution_count": 18
+					},
+					{
+						"cell_type": "code",
+						"source": [
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/pivotunpivot')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "sparkkdspool",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "355cf7a8-1f6a-42d5-bdde-566d0092a999"
 					}
 				},
 				"metadata": {
@@ -1096,57 +1212,34 @@
 						"metadata": {},
 						"source": [
 							"from pyspark.sql import *\n",
-							"from pyspark.sql.types import *\n",
 							"from pyspark.sql.functions import *\n",
-							"\n",
-							"data1=[(1,'kanit',2000,1),(2,'devi',3000,2),(3,'ani',1000,4)]\n",
-							"data2=[(1,'IT'),(2,'HR'),(3,'payroll')]\n",
-							"schema1=['id','name','salary','dept']\n",
-							"schema2=['id','depname']\n",
-							"df1=spark.createDataFrame(data1,schema1)\n",
-							"df2=spark.createDataFrame(data2,schema2)\n",
-							"df1.show()\n",
-							"df2.show()"
+							"from pyspark.sql.types import *\n",
+							"data1=[(1,\"kanit\",'M',1000,'HR'),(2,\"Dev\",'F',2000,'IT'),(3,\"Ani\",'M',3000,'Account'),\\\n",
+							"        (4,\"Ankit\",'M',4000,'Account'),(5,\"Hari\",'M',1000,'Account'),(6,\"meera\",'F',2000,'HR'),\\\n",
+							"        (7,\"Anil\",'M',3000,'IT'),(8,\"tarun\",'M',4000,'IT'),(9,\"Ketan\",'M',4000,'IT')]\n",
+							"schema1=[\"id\",\"name\",'gender','salary','department']\n",
+							"df=spark.createDataFrame(data1,schema1)\n",
+							"df.show()\n",
+							"df.groupBy(df.department).count().show()\n",
+							"df.groupBy(df.department).pivot('gender').count().show()\n",
+							"df.groupBy(df.department).pivot('gender',['M']).count().show()"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
 						"metadata": {},
 						"source": [
-							"df1.join(df2,df1.dept==df2.id,'inner').show()\n",
-							"df1.join(df2,df1.dept==df2.id,'left').show()\n",
-							"df1.join(df2,df1.dept==df2.id,'right').show()\n",
-							"df1.join(df2,df1.dept==df2.id,'leftsemi').show()\n",
-							"df1.join(df2,df1.dept==df2.id,'leftanti').show()\n",
-							"\n",
-							""
-						],
-						"outputs": [],
-						"execution_count": 6
-					},
-					{
-						"cell_type": "code",
-						"metadata": {},
-						"source": [
-							"data1=[(1,'kanit',2000,0),(2,'devi',3000,1),(3,'ani',1000,2)]\n",
-							"schema1=['id','name','salary','mgrID']\n",
-							"df1=spark.createDataFrame(data1,schema1)\n",
-							"df1.show()"
+							"data1=[('HR',8,5),('IT',6,3),('Account',1,2)]\n",
+							"schema1=['department','male','female']\n",
+							"df=spark.createDataFrame(data1,schema1)\n",
+							"df.show()\n",
+							"dfunpivot=df.select('department',expr(\"stack(2,'M',male,'F',female)as(gender,count)\"))\n",
+							"dfunpivot.show()"
 						],
 						"outputs": [],
 						"execution_count": 8
-					},
-					{
-						"cell_type": "code",
-						"metadata": {},
-						"source": [
-							"df1.alias('emp').join(df1.alias('mgr'),col('emp.mgrID')==col('mgr.id'),'left')\\\n",
-							".select(col('emp.name').alias('emp name'),col('mgr.name').alias('respective manager')).show()"
-						],
-						"outputs": [],
-						"execution_count": 18
 					},
 					{
 						"cell_type": "code",
