@@ -841,7 +841,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1f6386ba-8698-4eab-ac7b-a4830a1bebf3"
+						"spark.autotune.trackingId": "0d4b42d3-67c0-4cba-b2d5-80135657749b"
 					}
 				},
 				"metadata": {
@@ -866,15 +866,13 @@
 						"sparkVersion": "3.4",
 						"nodeCount": 10,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql import *\n",
 							"from pyspark.sql.functions import *\n",
@@ -891,7 +889,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"def converttoupper(df):\n",
 							"    return df.withColumn('name',upper(df.name))\n",
@@ -906,7 +903,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							""
 						],
@@ -1289,6 +1285,95 @@
 					},
 					{
 						"cell_type": "code",
+						"source": [
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/functiontransform')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "sparkkdspool",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "7f83b656-1e0b-4c30-9b88-6f943d097d0f"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/c853d123-c274-4d76-8290-e704c4a8dd26/resourceGroups/AzurePracticeRG/providers/Microsoft.Synapse/workspaces/azurekdsynapsespark/bigDataPools/sparkkdspool",
+						"name": "sparkkdspool",
+						"type": "Spark",
+						"endpoint": "https://azurekdsynapsespark.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkkdspool",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.4",
+						"nodeCount": 10,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"from pyspark.sql import *\n",
+							"from pyspark.sql.functions import *\n",
+							"from pyspark.sql.types import *\n",
+							"\n",
+							"data1=[(1,\"ron\",[\"aws\",\"python\"]),\n",
+							"        (2,\"don\",[\"azure\",\"java\"]),\n",
+							"        (3,\"son\",[\"gcp\",\".net\"])]\n",
+							"schema1=[\"id\",\"name\",\"skills\"]\n",
+							"df=spark.createDataFrame(data=data1,schema=schema1)\n",
+							"df.show()\n",
+							"df1=df.select('id','name',transform('skills',lambda x: upper(x)).alias('skill'))\n",
+							"df1.show()\n",
+							"def convertoupper(x):\n",
+							"    return upper(x)\n",
+							"df2=df.select('id','name',transform('skills',convertoupper).alias('skill')).show()\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 20
+					},
+					{
+						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							""
 						],
