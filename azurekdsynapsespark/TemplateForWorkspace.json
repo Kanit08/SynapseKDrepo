@@ -1410,7 +1410,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "04de025e-3b64-4360-a575-1411a9ab2c7c"
+						"spark.autotune.trackingId": "3c80e162-0977-4885-a0fb-dd60bb106fab"
 					}
 				},
 				"metadata": {
@@ -1435,15 +1435,13 @@
 						"sparkVersion": "3.4",
 						"nodeCount": 10,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql import *\n",
 							"from pyspark.sql.functions import *\n",
@@ -1463,7 +1461,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"help(to_timestamp)"
 						],
@@ -1472,7 +1469,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							""
 						],
@@ -1680,6 +1676,125 @@
 					},
 					{
 						"cell_type": "code",
+						"source": [
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/aggregate_rank_fuction')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "sparkkdspool",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "56c7c802-5c8e-40f5-9091-44871d691e86"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/c853d123-c274-4d76-8290-e704c4a8dd26/resourceGroups/AzurePracticeRG/providers/Microsoft.Synapse/workspaces/azurekdsynapsespark/bigDataPools/sparkkdspool",
+						"name": "sparkkdspool",
+						"type": "Spark",
+						"endpoint": "https://azurekdsynapsespark.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkkdspool",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.4",
+						"nodeCount": 10,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"from pyspark.sql import *\n",
+							"from pyspark.sql.functions import *\n",
+							"from pyspark.sql.types import *\n",
+							"from pyspark.sql.window import *\n",
+							"data1=[(1,\"kanit\",'M',1000),(2,\"Dev\",'F',1000),(3,\"Ani\",' ',3000)]\n",
+							"schema1=[\"id\",\"name\",'gender','salary']\n",
+							"df=spark.createDataFrame(data=data1,schema=schema1)\n",
+							"df.show()\n",
+							"df.select(approx_count_distinct('salary')).show()\n",
+							"df.select(count('salary')).show()\n",
+							"df.select(countDistinct('salary')).show()\n",
+							"df.select(avg('salary')).show()\n",
+							"df.select(collect_list('salary')).show()\n",
+							"df.select(collect_set('salary')).show()\n",
+							"\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 16
+					},
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"from pyspark.sql import *\n",
+							"from pyspark.sql.functions import *\n",
+							"from pyspark.sql.types import *\n",
+							"data1=[(1,\"kanit\",'M',1000,'HR'),(2,\"Dev\",'F',2000,'IT'),(3,\"Ani\",'M',3000,'Account'),\\\n",
+							"        (4,\"Ankit\",'M',4000,'Account'),(5,\"Hari\",'M',1000,'Account'),(6,\"meera\",'F',2000,'HR'),\\\n",
+							"        (7,\"Anil\",'M',3000,'IT'),(8,\"tarun\",'M',4000,'IT'),(9,\"Ketan\",'M',4000,'IT')]\n",
+							"schema1=[\"id\",\"name\",'gender','salary','department']\n",
+							"df=spark.createDataFrame(data1,schema1)\n",
+							"df.show()\n",
+							"df.sort('department').show()"
+						],
+						"outputs": [],
+						"execution_count": 19
+					},
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"window=Window.partitionBy('department').orderBy('salary')\n",
+							"df.withColumn('rownum',row_number().over(window)).show()\n",
+							"df.withColumn('rank',rank().over(window)).show()\n",
+							"df.withColumn('denserankn',dense_rank().over(window)).show()"
+						],
+						"outputs": [],
+						"execution_count": 23
+					},
+					{
+						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							""
 						],
