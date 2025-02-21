@@ -1,5 +1,5 @@
 {
-	"name": "date_function",
+	"name": "Timestamp_functions",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "98e8a0b2-40eb-466a-9416-213d87977937"
+				"spark.autotune.trackingId": "3c80e162-0977-4885-a0fb-dd60bb106fab"
 			}
 		},
 		"metadata": {
@@ -55,49 +55,23 @@
 					"from pyspark.sql.functions import *\n",
 					"from pyspark.sql.types import *\n",
 					"df=spark.range(3)\n",
-					"df.show()"
+					"df.show()\n",
+					"df1=df.withColumn('timestamp',current_timestamp())\n",
+					"df1.show()\n",
+					"df2=df1.withColumn('newtime',to_timestamp(lit('1997-02-28 10:30:00'), 'yyyy-MM-dd HH:mm:ss'))\n",
+					"df2.show(truncate=False)\n",
+					"df2.select('timestamp',hour(current_timestamp()).alias('hour'),\\\n",
+					"                        minute(current_timestamp()).alias('minute'),\\\n",
+					"                        second(current_timestamp()).alias('seconds')).show()"
+				],
+				"execution_count": 12
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"help(to_timestamp)"
 				],
 				"execution_count": 3
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"collapsed": false
-				},
-				"source": [
-					"df1=df.withColumn('date',current_date())\n",
-					"df1.show()\n",
-					"df2=df1.withColumn('dateformat',date_format('date', 'MM/dd/yyy'))\n",
-					"df2.show()\n",
-					"df3=df2.withColumn('currdate',to_date(df2.dateformat,'MM/dd/yyyy'))\n",
-					"df3.show()"
-				],
-				"execution_count": 6
-			},
-			{
-				"cell_type": "code",
-				"source": [
-					"data1=[('2024-02-26','2024-12-10')]\n",
-					"schema=['date1','date2']\n",
-					"df=spark.createDataFrame(data1,schema)\n",
-					"df.show()"
-				],
-				"execution_count": 5
-			},
-			{
-				"cell_type": "code",
-				"source": [
-					"df.withColumn('differencedate',datediff(df.date2,df.date1)).show()\n",
-					"df.withColumn('monthsgap',months_between(df.date2,df.date1)).show()\n",
-					"df.withColumn('addmonths',add_months(df.date2,2)).show()\n",
-					"df.withColumn('minusmonths',add_months(df.date2,-5)).show()\n",
-					"df.withColumn('adddate',date_add(df.date1,20)).show()\n",
-					"df.withColumn('minusdate',date_add(df.date1,-50)).show()\n",
-					"df.withColumn('year',year(df.date1)).show()\n",
-					"df.withColumn('month',month(df.date1)).show()\n",
-					""
-				],
-				"execution_count": 14
 			},
 			{
 				"cell_type": "code",
