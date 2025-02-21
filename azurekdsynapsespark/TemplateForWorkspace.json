@@ -684,7 +684,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b9bb3c9e-ebbc-4565-b05d-80c205cfb0d2"
+						"spark.autotune.trackingId": "fe0f2acc-234d-4963-9ebc-2e2caed3c2b8"
 					}
 				},
 				"metadata": {
@@ -709,15 +709,13 @@
 						"sparkVersion": "3.4",
 						"nodeCount": 10,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql import *\n",
 							"from pyspark.sql.functions import *\n",
@@ -736,7 +734,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"help(get_json_object)"
 						],
@@ -745,7 +742,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							""
 						],
@@ -1896,6 +1892,109 @@
 						],
 						"outputs": [],
 						"execution_count": 17
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/date_function')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "sparkkdspool",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "eee9e49f-05ac-467c-9d15-2b0d9e133615"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/c853d123-c274-4d76-8290-e704c4a8dd26/resourceGroups/AzurePracticeRG/providers/Microsoft.Synapse/workspaces/azurekdsynapsespark/bigDataPools/sparkkdspool",
+						"name": "sparkkdspool",
+						"type": "Spark",
+						"endpoint": "https://azurekdsynapsespark.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkkdspool",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.4",
+						"nodeCount": 10,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"from pyspark.sql import *\n",
+							"from pyspark.sql.functions import *\n",
+							"from pyspark.sql.types import *\n",
+							"df=spark.range(3)\n",
+							"df.show()"
+						],
+						"outputs": [],
+						"execution_count": 19
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"collapsed": false
+						},
+						"source": [
+							"df1=df.withColumn('date',current_date())\n",
+							"df1.show()\n",
+							"df2=df1.withColumn('dateformat',date_format('date', 'MM/dd/yyy'))\n",
+							"df2.show()\n",
+							"df3=df2.withColumn('currdate',to_date(df2.dateformat,'MM/dd/yyyy'))\n",
+							"df3.show()"
+						],
+						"outputs": [],
+						"execution_count": 42
+					},
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"help(to_date)"
+						],
+						"outputs": [],
+						"execution_count": 23
+					},
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							""
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
