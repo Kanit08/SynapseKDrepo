@@ -1,5 +1,5 @@
 {
-	"name": "FromJsonfunction",
+	"name": "tojson",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "0b31c8a2-1343-499f-8793-1ba0eef4dce3"
+				"spark.autotune.trackingId": "be7c491a-1235-4662-abb0-29b6e1b1091d"
 			}
 		},
 		"metadata": {
@@ -54,52 +54,14 @@
 					"from pyspark.sql import *\n",
 					"from pyspark.sql.functions import *\n",
 					"from pyspark.sql.types import *\n",
-					"data1=[('kanit','{\"hair\":\"black\",\"eye\":\"brown\"}')]\n",
-					"schema=['name','properties']\n",
-					"df=spark.createDataFrame(data1,schema)\n",
-					"\n",
-					"df.show()"
-				],
-				"execution_count": 9
-			},
-			{
-				"cell_type": "code",
-				"source": [
-					"df1=df.withColumn('propmap',from_json(df.properties,MapType(StringType(),StringType())))\n",
-					"df1.show(truncate=False)"
-				],
-				"execution_count": 12
-			},
-			{
-				"cell_type": "code",
-				"source": [
-					"df2=df1.withColumn('eyes',df1.propmap.eye).show(truncate=False)"
-				],
-				"execution_count": 14
-			},
-			{
-				"cell_type": "code",
-				"source": [
-					"from pyspark.sql import *\n",
-					"from pyspark.sql.functions import *\n",
-					"from pyspark.sql.types import *\n",
-					"data1=[('kanit','{\"hair\":\"black\",\"eye\":\"brown\"}')]\n",
+					"data1=[('kanit',{\"hair\":\"black\",\"eye\":\"brown\"})]\n",
 					"schema=['name','properties']\n",
 					"df=spark.createDataFrame(data1,schema)\n",
 					"df.show()\n",
-					"propschema=StructType([StructField(\"hair\",StringType()),\\\n",
-					"                        StructField('eye',StringType())])\n",
-					"df1=df.withColumn('propmap',from_json(df.properties,propschema))\n",
+					"df1=df.withColumn('propmap',to_json(df.properties))\n",
 					"df1.show(truncate=False)"
 				],
 				"execution_count": 2
-			},
-			{
-				"cell_type": "code",
-				"source": [
-					"df2=df1.withColumn('propmap2',df1.propmap.hair).show(truncate=False)"
-				],
-				"execution_count": 7
 			},
 			{
 				"cell_type": "code",
