@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "6a3c137c-d43c-4085-928c-069391ebb9a6"
+				"spark.autotune.trackingId": "a996b7b2-8421-4847-baa6-d563ed5ec0e2"
 			}
 		},
 		"metadata": {
@@ -57,7 +57,7 @@
 					"df=spark.range(3)\n",
 					"df.show()"
 				],
-				"execution_count": 19
+				"execution_count": 3
 			},
 			{
 				"cell_type": "code",
@@ -72,14 +72,32 @@
 					"df3=df2.withColumn('currdate',to_date(df2.dateformat,'MM/dd/yyyy'))\n",
 					"df3.show()"
 				],
-				"execution_count": 42
+				"execution_count": 6
 			},
 			{
 				"cell_type": "code",
 				"source": [
-					"help(to_date)"
+					"data1=[('2024-02-26','2024-12-10')]\n",
+					"schema=['date1','date2']\n",
+					"df=spark.createDataFrame(data1,schema)\n",
+					"df.show()"
 				],
-				"execution_count": 23
+				"execution_count": 5
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"df.withColumn('differencedate',datediff(df.date2,df.date1)).show()\n",
+					"df.withColumn('monthsgap',months_between(df.date2,df.date1)).show()\n",
+					"df.withColumn('addmonths',add_months(df.date2,2)).show()\n",
+					"df.withColumn('minusmonths',add_months(df.date2,-5)).show()\n",
+					"df.withColumn('adddate',date_add(df.date1,20)).show()\n",
+					"df.withColumn('minusdate',date_add(df.date1,-50)).show()\n",
+					"df.withColumn('year',year(df.date1)).show()\n",
+					"df.withColumn('month',month(df.date1)).show()\n",
+					""
+				],
+				"execution_count": 14
 			},
 			{
 				"cell_type": "code",
