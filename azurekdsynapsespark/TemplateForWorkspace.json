@@ -563,7 +563,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3cb57e96-5d75-4de7-9e65-6e3286cdd048"
+						"spark.autotune.trackingId": "41ee29ac-f4a5-477f-920f-c2079a701f43"
 					}
 				},
 				"metadata": {
@@ -628,6 +628,34 @@
 						],
 						"outputs": [],
 						"execution_count": 14
+					},
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"from pyspark.sql import *\n",
+							"from pyspark.sql.functions import *\n",
+							"from pyspark.sql.types import *\n",
+							"data1=[('kanit','{\"hair\":\"black\",\"eye\":\"brown\"}')]\n",
+							"schema=['name','properties']\n",
+							"df=spark.createDataFrame(data1,schema)\n",
+							"df.show()\n",
+							"propschema=StructType([StructField(\"hair\",StringType()),\\\n",
+							"                        StructField('eye',StringType())])\n",
+							"df1=df.withColumn('propmap',from_json(df.properties,propschema))\n",
+							"df1.show(truncate=False)"
+						],
+						"outputs": [],
+						"execution_count": 2
+					},
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"df2=df1.withColumn('propmap2',df1.propmap.hair).show(truncate=False)"
+						],
+						"outputs": [],
+						"execution_count": 7
 					},
 					{
 						"cell_type": "code",
@@ -3553,6 +3581,22 @@
 			},
 			"dependsOn": [],
 			"location": "centralus"
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/toJson')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"metadata": {
+					"language_info": {
+						"name": "python"
+					}
+				},
+				"cells": []
+			},
+			"dependsOn": []
 		}
 	]
 }
